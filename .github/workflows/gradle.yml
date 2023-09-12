@@ -42,7 +42,7 @@ jobs:
             cd ./resources
             touch ./application.yml
             touch ./email.properties
-            echo "$OCCUPY_DEPLOY" | base64 --decode > ./application.yml
+            echo "$OCCUPY_DEPLOY" > ./application.yml
             echo "$EMAIL_PROP" > ./email.properties
             
       - name: Build with Gradle
