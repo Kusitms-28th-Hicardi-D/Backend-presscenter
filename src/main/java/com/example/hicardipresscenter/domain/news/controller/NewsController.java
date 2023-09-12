@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/news")
+@RequestMapping("/api/presscenter/news")
 public class NewsController {
 
     private final NewsService newsService;
