@@ -8,6 +8,7 @@ import com.example.hicardipresscenter.domain.news.dto.res.NewsFindAllResponseDto
 import com.example.hicardipresscenter.domain.news.dto.res.NewsFindResponseDto;
 import com.example.hicardipresscenter.domain.news.dto.res.NewsSubscribeResponseDto;
 import com.example.hicardipresscenter.domain.news.repository.NewsRepository;
+import com.example.hicardipresscenter.global.S3Service;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +19,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +36,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final MongoTemplate mongoTemplate;
     private final EmailService emailService;
+    private final S3Service s3Service;
 
     public BaseResponseDto<NewsCreateResponseDto> createNews(NewsCreateRequestDto requestDto) {
         News news = News.builder()
@@ -40,6 +44,7 @@ public class NewsService {
                 .content(requestDto.getContent())
                 .writer(requestDto.getWriter())
                 .image(requestDto.getImage())
+                .files(requestDto.getFiles())
                 .build();
 
         mongoTemplate.insert(news);
@@ -60,6 +65,14 @@ public class NewsService {
                 news.getWriter(),
                 news.getImage()
         ));
+    }
+
+    public String uploadFile(MultipartFile file) {
+        return s3Service.uploadPdf(file);
+    }
+
+    public ResponseEntity<byte[]> downloadFile(String key, String downloadFileName) {
+        return s3Service.downloadPdf(key, downloadFileName);
     }
 
     public BaseResponseDto<NewsFindResponseDto> findNews(ObjectId id) {

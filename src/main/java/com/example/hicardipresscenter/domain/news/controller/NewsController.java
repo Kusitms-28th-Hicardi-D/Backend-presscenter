@@ -11,7 +11,11 @@ import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +29,21 @@ public class NewsController {
             @RequestBody NewsCreateRequestDto requestDto
     ) {
         return newsService.createNews(requestDto);
+    }
+
+    @PostMapping("/file")
+    public BaseResponseDto<?> uploadFile(
+            @RequestPart MultipartFile file
+    ) {
+        return new BaseResponseDto<>(newsService.uploadFile(file));
+    }
+
+    @GetMapping("/file")
+    public ResponseEntity<byte[]> downloadFile(
+            @RequestParam String key,
+            @RequestParam String downloadFileName
+    ) {
+        return newsService.downloadFile(key, downloadFileName);
     }
 
     @GetMapping("/{id}")
