@@ -11,6 +11,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,4 +27,6 @@ public class News extends BaseDocument {
     private String content;
     private String writer;
     private String image;
+
+    private List<String> files;
 }

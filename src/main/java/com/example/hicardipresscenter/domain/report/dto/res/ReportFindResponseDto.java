@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReportFindResponseDto {
 
+    private String id;
     private String title;
     private String content;
     private String link;

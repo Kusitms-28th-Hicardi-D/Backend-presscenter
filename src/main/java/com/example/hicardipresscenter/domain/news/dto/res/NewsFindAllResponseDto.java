@@ -11,5 +11,9 @@ import java.util.List;
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 public class NewsFindAllResponseDto {
-    private List<News> newsList;
+    private String id;
+    private String title;
+    private String writer;
+    private String createdDate;
+    private String image;
 }

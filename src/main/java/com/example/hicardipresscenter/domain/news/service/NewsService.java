@@ -10,15 +10,21 @@ import com.example.hicardipresscenter.domain.news.dto.res.NewsSubscribeResponseD
 import com.example.hicardipresscenter.domain.news.repository.NewsRepository;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -68,16 +74,51 @@ public class NewsService {
                 news.getTitle(),
                 news.getContent(),
                 news.getWriter(),
-                news.getImage(),
                 news.getCreatedDate(),
-                news.getModifiedDate()
+                news.getFiles()
         ));
     }
 
-    public BaseResponseDto<NewsFindAllResponseDto> findAllNews() {
-        return new BaseResponseDto<>(NewsFindAllResponseDto.of(
-                newsRepository.findAll()
-        ));
+    public Page<NewsFindAllResponseDto> findAllNews(Pageable pageable) {
+        Query query = new Query()
+                .with(pageable)
+                .skip(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        log.info("pageable: {}", pageable);
+
+        List<NewsFindAllResponseDto> list = findNewsList(query);
+
+        return PageableExecutionUtils.getPage(
+                list,
+                pageable,
+                () -> mongoTemplate.count(query.skip(-1).limit(-1), News.class)
+        );
+    }
+
+    public Page<NewsFindAllResponseDto> searchNews(Pageable pageable, String keyword, String category) {
+
+        Query query = new Query(Criteria.where(category).regex(keyword));
+
+        List<NewsFindAllResponseDto> list = findNewsList(query);
+
+        return PageableExecutionUtils.getPage(
+                list,
+                pageable,
+                () -> mongoTemplate.count(query.skip(-1).limit(-1), News.class)
+        );
+    }
+
+    public List<NewsFindAllResponseDto> findNewsList(Query query) {
+        return mongoTemplate.find(query, News.class, "news").stream()
+                .map(news -> NewsFindAllResponseDto.of(
+                        news.getId().toHexString(),
+                        news.getTitle(),
+                        news.getWriter(),
+                        news.getCreatedDate(),
+                        news.getImage()
+                ))
+                .collect(Collectors.toList());
     }
 
     public BaseResponseDto<NewsSubscribeResponseDto> subscribeNews(String email) {

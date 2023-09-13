@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 public class ReportFindAllResponseDto {
-    private List<Report> reportList;
+    private List<ReportFindResponseDto> reportList;
 }
