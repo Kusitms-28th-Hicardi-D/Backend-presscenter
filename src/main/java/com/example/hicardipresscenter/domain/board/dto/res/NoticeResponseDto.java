@@ -11,6 +11,6 @@ public class NoticeResponseDto {
 
     private String title;
     private String content;
-    private String createdAt;
+    private String date;
     private String writer;
 }

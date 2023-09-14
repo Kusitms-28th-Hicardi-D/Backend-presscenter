@@ -93,7 +93,7 @@ public class BoardService {
         return NoticeResponseDto.of(
                 notice.getTitle(),
                 notice.getContent(),
-                notice.getCreatedDate(),
+                getDateForList(String.valueOf(notice.getDate())),
                 notice.getWriter()
         );
     }

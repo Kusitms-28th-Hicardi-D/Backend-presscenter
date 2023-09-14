@@ -12,7 +12,7 @@ public class QnaResponseDto {
     private String title;
     private String email;
     private String writer;
-    private String createdAt;
+    private String date;
     private String question;
     private String answer;
 }
