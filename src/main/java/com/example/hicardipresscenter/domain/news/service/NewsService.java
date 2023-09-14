@@ -8,6 +8,8 @@ import com.example.hicardipresscenter.domain.news.dto.res.NewsFindAllResponseDto
 import com.example.hicardipresscenter.domain.news.dto.res.NewsFindResponseDto;
 import com.example.hicardipresscenter.domain.news.dto.res.NewsSubscribeResponseDto;
 import com.example.hicardipresscenter.domain.news.repository.NewsRepository;
+import com.example.hicardipresscenter.global.EmailService;
+import com.example.hicardipresscenter.global.MessageType;
 import com.example.hicardipresscenter.global.S3Service;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +55,7 @@ public class NewsService {
 
         try {
             for (Subscribe subscribe : subscribes) {
-                emailService.sendSimpleMessage(subscribe.getEmail());
+                emailService.sendSimpleMessage(subscribe.getEmail(), MessageType.NEWS);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,8 +112,10 @@ public class NewsService {
     }
 
     public Page<NewsFindAllResponseDto> searchNews(Pageable pageable, String keyword, String category) {
-
-        Query query = new Query(Criteria.where(category).regex(keyword));
+        Query query = new Query(Criteria.where(category).regex(keyword))
+                .with(pageable)
+                .skip(pageable.getOffset())
+                .limit(pageable.getPageSize());
 
         List<NewsFindAllResponseDto> list = findNewsList(query);
 

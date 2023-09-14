@@ -29,8 +29,4 @@ public class News extends BaseDocument {
     private String image;
 
     private List<String> files;
-
-    public void addFile(String file){
-        this.files.add(file);
-    }
 }
