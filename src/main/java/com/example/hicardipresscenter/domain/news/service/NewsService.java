@@ -70,7 +70,7 @@ public class NewsService {
     }
 
     public String uploadFile(MultipartFile file) {
-        return s3Service.uploadPdf(file);
+        return s3Service.uploadPdf(file, "news");
     }
 
     public ResponseEntity<byte[]> downloadFile(String key, String downloadFileName) {
