@@ -3,12 +3,14 @@ package com.example.hicardipresscenter.domain.report.controller;
 import com.example.hicardipresscenter.domain.report.dto.req.ReportCreateRequestDto;
 import com.example.hicardipresscenter.domain.report.dto.res.ReportGetResponseDto;
 import com.example.hicardipresscenter.domain.report.service.ReportService;
+import com.example.hicardipresscenter.global.QueryUtil;
 import com.example.hicardipresscenter.global.response.BasePageDto;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +42,9 @@ public class ReportController {
             @RequestParam(name = "criteria") String criteria,
             Pageable pageable
     ) {
-        return new BaseResponseDto<>(new BasePageDto<>(reportService.searchReport(pageable, keyword, criteria)));
+        Query query = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = reportService.getTotal(query);
+        return new BaseResponseDto<>(new BasePageDto<>(reportService.searchReport(pageable, keyword, criteria), total));
     }
 
 //    @GetMapping("")

@@ -2,20 +2,19 @@ package com.example.hicardipresscenter.domain.news.controller;
 
 import com.example.hicardipresscenter.domain.news.dto.req.NewsCreateRequestDto;
 import com.example.hicardipresscenter.domain.news.dto.res.NewsCreateResponseDto;
-import com.example.hicardipresscenter.domain.news.dto.res.NewsFindAllResponseDto;
 import com.example.hicardipresscenter.domain.news.dto.res.NewsFindResponseDto;
 import com.example.hicardipresscenter.domain.news.dto.res.NewsSubscribeResponseDto;
 import com.example.hicardipresscenter.domain.news.service.NewsService;
+import com.example.hicardipresscenter.global.QueryUtil;
 import com.example.hicardipresscenter.global.response.BasePageDto;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,7 +58,9 @@ public class NewsController {
             @RequestParam(name = "criteria") String criteria,
             Pageable pageable
     ) {
-        return new BaseResponseDto<>(new BasePageDto<>(newsService.searchNews(pageable, keyword, criteria)));
+        Query query = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = newsService.getTotal(query);
+        return new BaseResponseDto<>(new BasePageDto<>(newsService.searchNews(query, pageable), total));
     }
 
 //    @GetMapping("")

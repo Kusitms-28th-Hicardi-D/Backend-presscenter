@@ -22,7 +22,7 @@ public class QueryUtil {
             query = new Query(
                     Criteria.where(criteria).regex(keyword).and("date").gte(getPeriod(option)).lt(now))
                     .with(pageable)
-                    .skip(pageable.getOffset())
+                    .skip(pageable.getOffset() - 5)
                     .limit(pageable.getPageSize());
         }
 
@@ -42,8 +42,22 @@ public class QueryUtil {
             query = new Query(
                     Criteria.where(criteria).regex(keyword))
                     .with(pageable)
-                    .skip(pageable.getOffset())
+                    .skip(pageable.getOffset() - 5)
                     .limit(pageable.getPageSize());
+        }
+
+        return query;
+    }
+
+    public static Query getTotalQuery(String criteria, String keyword) {
+
+        Query query;
+
+        if (keyword.isEmpty()) {
+            query = new Query();
+        } else {
+            query = new Query(
+                    Criteria.where(criteria).regex(keyword));
         }
 
         return query;

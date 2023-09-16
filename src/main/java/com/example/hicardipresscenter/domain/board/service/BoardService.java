@@ -115,6 +115,10 @@ public class BoardService {
         );
     }
 
+    public long getTotalNotice(Query query) {
+        return mongoTemplate.find(query, Notice.class, "notice").size();
+    }
+
     public List<NoticeListResponseDto> findNoticeList(Query query) {
         return mongoTemplate.find(query, Notice.class, "notice").stream()
                 .map(notice -> NoticeListResponseDto.of(
@@ -181,6 +185,10 @@ public class BoardService {
                 pageable,
                 () -> mongoTemplate.count(query.skip(-1).limit(-1), Qna.class)
         );
+    }
+
+    public long getTotalQna(Query query) {
+        return mongoTemplate.find(query, Qna.class, "qna").size();
     }
 
     public List<QnaListResponseDto> findQnaList(Query query) {

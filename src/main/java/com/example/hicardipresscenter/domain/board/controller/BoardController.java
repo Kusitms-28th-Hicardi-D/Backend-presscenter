@@ -4,11 +4,13 @@ import com.example.hicardipresscenter.domain.board.dto.req.NoticeCreateRequestDt
 import com.example.hicardipresscenter.domain.board.dto.req.QnaAnswerRequestDto;
 import com.example.hicardipresscenter.domain.board.dto.req.QnaCreateRequestDto;
 import com.example.hicardipresscenter.domain.board.service.BoardService;
+import com.example.hicardipresscenter.global.QueryUtil;
 import com.example.hicardipresscenter.global.response.BasePageDto;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,7 +39,9 @@ public class BoardController {
             @RequestParam String criteria,
             @RequestParam String option,
             Pageable pageable) {
-        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchNotice(pageable, keyword, criteria, option)));
+        Query query = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = boardService.getTotalNotice(query);
+        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchNotice(pageable, keyword, criteria, option), total));
     }
 
     // 공지 등록
@@ -68,7 +72,9 @@ public class BoardController {
             @RequestParam String keyword,
             @RequestParam String criteria,
             Pageable pageable) {
-        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchQna(pageable, keyword, criteria)));
+        Query query = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = boardService.getTotalQna(query);
+        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchQna(pageable, keyword, criteria), total));
     }
 
     // Q&A 등록

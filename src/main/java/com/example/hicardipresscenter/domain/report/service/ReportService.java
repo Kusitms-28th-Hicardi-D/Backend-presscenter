@@ -112,6 +112,10 @@ public class ReportService {
         );
     }
 
+    public long getTotal(Query query) {
+        return mongoTemplate.find(query, Report.class, "report").size();
+    }
+
     public List<ReportFindResponseDto> findReportList(Query query) {
         return mongoTemplate.find(query, Report.class, "report").stream()
                 .map(report -> ReportFindResponseDto.of(

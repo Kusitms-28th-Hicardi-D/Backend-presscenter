@@ -109,8 +109,7 @@ public class NewsService {
         );
     }
 
-    public Page<NewsFindAllResponseDto> searchNews(Pageable pageable, String keyword, String category) {
-        Query query = QueryUtil.getQuery(pageable, category, keyword);
+    public Page<NewsFindAllResponseDto> searchNews(Query query, Pageable pageable) {
 
         List<NewsFindAllResponseDto> list = findNewsList(query);
 
@@ -119,6 +118,10 @@ public class NewsService {
                 pageable,
                 () -> mongoTemplate.count(query.skip(-1).limit(-1), News.class)
         );
+    }
+
+    public long getTotal(Query query) {
+        return mongoTemplate.find(query, News.class, "news").size();
     }
 
     public List<NewsFindAllResponseDto> findNewsList(Query query) {
