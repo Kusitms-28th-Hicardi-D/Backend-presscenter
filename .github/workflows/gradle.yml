@@ -87,8 +87,8 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             envs: GITHUB_SHA
             script: |
-                sudo docker rm -f $(docker ps -qa)
+                sudo docker rm presscenter
                 sudo docker pull minchogt/hicardi-presscenter
-                docker-compose up -d
+                docker-compose up -d presscenter
                 docker image prune -f
       
