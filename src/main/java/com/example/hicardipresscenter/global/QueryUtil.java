@@ -16,7 +16,7 @@ public class QueryUtil {
         if (keyword.isEmpty()) {
             query = new Query()
                     .with(pageable)
-                    .skip(pageable.getOffset())
+                    .skip(pageable.getOffset() - 5)
                     .limit(pageable.getPageSize());
         } else {
             query = new Query(
@@ -36,7 +36,7 @@ public class QueryUtil {
         if (keyword.isEmpty()) {
             query = new Query()
                     .with(pageable)
-                    .skip(pageable.getOffset())
+                    .skip(pageable.getOffset() - 5)
                     .limit(pageable.getPageSize());
         } else {
             query = new Query(
