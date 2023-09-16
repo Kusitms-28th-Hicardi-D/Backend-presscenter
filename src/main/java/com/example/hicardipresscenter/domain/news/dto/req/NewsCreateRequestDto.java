@@ -1,5 +1,6 @@
 package com.example.hicardipresscenter.domain.news.dto.req;
 
+import com.example.hicardipresscenter.domain.news.document.News;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,5 @@ public class NewsCreateRequestDto {
     private String content;
     private String writer;
     private String image;
-    private List<String> files;
+    private List<News.File> files;
 }

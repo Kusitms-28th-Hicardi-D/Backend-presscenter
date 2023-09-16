@@ -59,11 +59,11 @@ public class BoardService {
         return date.substring(0, 4) + "." + date.substring(4, 6) + "." + date.substring(6);
     }
 
-    public String createNotice(String title, String content, String writer) {
+    public String createNotice(String title, String content, String writer, List<Notice.File> files) {
         long num = getNextSeq("notice");
         long date = Long.parseLong(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 
-        Notice input = Notice.createNotice(title, content, writer, date, num);
+        Notice input = Notice.createNotice(title, content, writer, date, num, files);
         Notice notice = mongoTemplate.insert(input);
 
         return notice.getId().toHexString();
@@ -82,7 +82,8 @@ public class BoardService {
                 notice.getTitle(),
                 notice.getContent(),
                 getDateForList(String.valueOf(notice.getDate())),
-                notice.getWriter()
+                notice.getWriter(),
+                notice.getFiles()
         );
     }
 

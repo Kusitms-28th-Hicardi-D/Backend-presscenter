@@ -28,5 +28,13 @@ public class News extends BaseDocument {
     private String writer;
     private String image;
 
-    private List<String> files;
+    private List<File> files;
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    public static class File {
+        private String name;
+        private String url;
+    }
 }

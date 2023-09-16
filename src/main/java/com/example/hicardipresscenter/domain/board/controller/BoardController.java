@@ -51,7 +51,7 @@ public class BoardController {
             @RequestBody NoticeCreateRequestDto requestDto
             ) {
         return new BaseResponseDto<>(boardService.createNotice(
-                requestDto.getTitle(), requestDto.getContent(), requestDto.getWriter()
+                requestDto.getTitle(), requestDto.getContent(), requestDto.getWriter(), requestDto.getFiles()
         ));
     }
 

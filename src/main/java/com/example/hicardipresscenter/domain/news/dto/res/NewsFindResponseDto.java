@@ -1,5 +1,6 @@
 package com.example.hicardipresscenter.domain.news.dto.res;
 
+import com.example.hicardipresscenter.domain.news.document.News;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,5 @@ public class NewsFindResponseDto {
     private String content;
     private String writer;
     private String createdDate;
-    private List<String> files;
+    private List<News.File> files;
 }
