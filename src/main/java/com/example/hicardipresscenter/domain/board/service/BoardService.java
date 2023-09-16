@@ -103,8 +103,7 @@ public class BoardService {
 
     // 공지 검색
     // 현재부터 period 만큼의 공지사항을 검색
-    public Page<NoticeListResponseDto> searchNotice(Pageable pageable, String keyword, String criteria, String option) {
-        Query query = QueryUtil.getQueryWithDate(pageable, option, criteria, keyword);
+    public Page<NoticeListResponseDto> searchNotice(Pageable pageable, Query query) {
 
         List<NoticeListResponseDto> list = findNoticeList(query);
 
@@ -175,8 +174,7 @@ public class BoardService {
         );
     }
 
-    public Page<QnaListResponseDto> searchQna(Pageable pageable, String keyword, String category) {
-        Query query = QueryUtil.getQuery(pageable, category, keyword);
+    public Page<QnaListResponseDto> searchQna(Pageable pageable, Query query) {
 
         List<QnaListResponseDto> list = findQnaList(query);
 

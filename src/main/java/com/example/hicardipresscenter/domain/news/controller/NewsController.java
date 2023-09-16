@@ -58,8 +58,9 @@ public class NewsController {
             @RequestParam(name = "criteria") String criteria,
             Pageable pageable
     ) {
-        Query query = QueryUtil.getTotalQuery(criteria, keyword);
-        long total = newsService.getTotal(query);
+        Query totalQuery = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = newsService.getTotal(totalQuery);
+        Query query = QueryUtil.getQuery(pageable, criteria, keyword);
         return new BaseResponseDto<>(new BasePageDto<>(newsService.searchNews(query, pageable), total));
     }
 

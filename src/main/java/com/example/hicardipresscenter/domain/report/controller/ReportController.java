@@ -42,9 +42,10 @@ public class ReportController {
             @RequestParam(name = "criteria") String criteria,
             Pageable pageable
     ) {
-        Query query = QueryUtil.getTotalQuery(criteria, keyword);
-        long total = reportService.getTotal(query);
-        return new BaseResponseDto<>(new BasePageDto<>(reportService.searchReport(pageable, keyword, criteria), total));
+        Query totalQuery = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = reportService.getTotal(totalQuery);
+        Query query = QueryUtil.getQuery(pageable, criteria, keyword);
+        return new BaseResponseDto<>(new BasePageDto<>(reportService.searchReport(pageable, query), total));
     }
 
 //    @GetMapping("")

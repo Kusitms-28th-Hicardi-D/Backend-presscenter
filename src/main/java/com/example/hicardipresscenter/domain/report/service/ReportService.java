@@ -100,8 +100,7 @@ public class ReportService {
         );
     }
 
-    public Page<ReportFindResponseDto> searchReport(Pageable pageable, String keyword, String criteria) {
-        Query query = QueryUtil.getQuery(pageable, criteria, keyword);
+    public Page<ReportFindResponseDto> searchReport(Pageable pageable, Query query) {
 
         List<ReportFindResponseDto> list = findReportList(query);
 

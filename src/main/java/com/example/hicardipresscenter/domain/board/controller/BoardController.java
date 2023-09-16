@@ -39,9 +39,10 @@ public class BoardController {
             @RequestParam String criteria,
             @RequestParam String option,
             Pageable pageable) {
-        Query query = QueryUtil.getTotalQuery(criteria, keyword);
-        long total = boardService.getTotalNotice(query);
-        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchNotice(pageable, keyword, criteria, option), total));
+        Query totalQuery = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = boardService.getTotalNotice(totalQuery);
+        Query query = QueryUtil.getQueryWithDate(pageable, option, criteria, keyword);
+        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchNotice(pageable, query), total));
     }
 
     // 공지 등록
@@ -72,9 +73,10 @@ public class BoardController {
             @RequestParam String keyword,
             @RequestParam String criteria,
             Pageable pageable) {
-        Query query = QueryUtil.getTotalQuery(criteria, keyword);
-        long total = boardService.getTotalQna(query);
-        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchQna(pageable, keyword, criteria), total));
+        Query totalQuery = QueryUtil.getTotalQuery(criteria, keyword);
+        long total = boardService.getTotalQna(totalQuery);
+        Query query = QueryUtil.getQuery(pageable, criteria, keyword);
+        return new BaseResponseDto<>(new BasePageDto<>(boardService.searchQna(pageable, query), total));
     }
 
     // Q&A 등록
