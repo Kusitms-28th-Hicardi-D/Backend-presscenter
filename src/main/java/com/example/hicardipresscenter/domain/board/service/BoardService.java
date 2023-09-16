@@ -210,7 +210,7 @@ public class BoardService {
                         qna.getId().toHexString(),
                         qna.getNum(),
                         qna.getTitle(),
-                        qna.getCreatedDate(),
+                        getDateForList(String.valueOf(qna.getDate())),
                         qna.getViewCount()
                 ))
                 .collect(Collectors.toList());

@@ -8,6 +8,7 @@ import com.example.hicardipresscenter.domain.news.dto.res.NewsFindAllResponseDto
 import com.example.hicardipresscenter.domain.news.dto.res.NewsFindResponseDto;
 import com.example.hicardipresscenter.domain.news.dto.res.NewsSubscribeResponseDto;
 import com.example.hicardipresscenter.domain.news.repository.NewsRepository;
+import com.example.hicardipresscenter.global.DateUtil;
 import com.example.hicardipresscenter.global.EmailService;
 import com.example.hicardipresscenter.global.MessageType;
 import com.example.hicardipresscenter.global.S3Service;
@@ -89,7 +90,7 @@ public class NewsService {
                 news.getTitle(),
                 news.getContent(),
                 news.getWriter(),
-                news.getCreatedDate(),
+                DateUtil.dateFormatter(news.getCreatedDate()),
                 news.getFiles()
         ));
     }
@@ -132,7 +133,7 @@ public class NewsService {
                         news.getId().toHexString(),
                         news.getTitle(),
                         news.getWriter(),
-                        news.getCreatedDate(),
+                        DateUtil.dateFormatter(news.getCreatedDate()),
                         news.getImage()
                 ))
                 .collect(Collectors.toList());

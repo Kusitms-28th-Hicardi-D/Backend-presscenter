@@ -6,6 +6,7 @@ import com.example.hicardipresscenter.domain.report.dto.res.ReportCreateResponse
 import com.example.hicardipresscenter.domain.report.dto.res.ReportFindAllResponseDto;
 import com.example.hicardipresscenter.domain.report.dto.res.ReportFindResponseDto;
 import com.example.hicardipresscenter.domain.report.dto.res.ReportGetResponseDto;
+import com.example.hicardipresscenter.global.DateUtil;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -77,7 +78,7 @@ public class ReportService {
                 report.getTitle(),
                 report.getContent(),
                 report.getLink(),
-                report.getPubDate()
+                DateUtil.dateFormatter(report.getPubDate())
         ));
     }
 
@@ -120,7 +121,7 @@ public class ReportService {
                         report.getTitle(),
                         report.getContent(),
                         report.getLink(),
-                        report.getPubDate()
+                        DateUtil.dateFormatter(report.getPubDate())
                 ))
                 .collect(Collectors.toList());
     }
