@@ -53,7 +53,7 @@ public class NewsController {
         return newsService.findNews(new ObjectId(id));
     }
 
-    @GetMapping("/search")
+    @GetMapping("")
     public BaseResponseDto<?> searchNews(
             @RequestParam(name = "keyword") String keyword,
             @RequestParam(name = "criteria") String criteria,
@@ -62,10 +62,10 @@ public class NewsController {
         return new BaseResponseDto<>(new BasePageDto<>(newsService.searchNews(pageable, keyword, criteria)));
     }
 
-    @GetMapping("")
-    public BaseResponseDto<?> findAllNews(Pageable pageable) {
-        return new BaseResponseDto<>(new BasePageDto<>(newsService.findAllNews(pageable)));
-    }
+//    @GetMapping("")
+//    public BaseResponseDto<?> findAllNews(Pageable pageable) {
+//        return new BaseResponseDto<>(new BasePageDto<>(newsService.findAllNews(pageable)));
+//    }
 
     @PostMapping("/subscribe")
     public BaseResponseDto<NewsSubscribeResponseDto> subscribeNews(

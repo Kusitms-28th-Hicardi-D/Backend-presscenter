@@ -8,6 +8,7 @@ import com.example.hicardipresscenter.domain.board.dto.res.QnaListResponseDto;
 import com.example.hicardipresscenter.domain.board.dto.res.QnaResponseDto;
 import com.example.hicardipresscenter.global.EmailService;
 import com.example.hicardipresscenter.global.MessageType;
+import com.example.hicardipresscenter.global.QueryUtil;
 import com.example.hicardipresscenter.global.Sequence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,19 +52,6 @@ public class BoardService {
             throw new RuntimeException("Unable to get sequence id for key : " + collection);
 
         return sequence.getSeq();
-    }
-
-    private long getPeriod(String option) {
-        switch (option) {
-            case "week":
-                return Long.parseLong(LocalDateTime.now().minusWeeks(1).format(DateTimeFormatter.ofPattern("yyyyMMdd")));
-            case "month":
-                return Long.parseLong(LocalDateTime.now().minusMonths(1).format(DateTimeFormatter.ofPattern("yyyyMMdd")));
-            case "all":
-                return Long.parseLong(LocalDateTime.now().minusYears(100).format(DateTimeFormatter.ofPattern("yyyyMMdd")));
-            default:
-                return 0;
-        }
     }
 
     // yyyyMMdd -> yyyy.MM.dd
@@ -116,13 +104,7 @@ public class BoardService {
     // 공지 검색
     // 현재부터 period 만큼의 공지사항을 검색
     public Page<NoticeListResponseDto> searchNotice(Pageable pageable, String keyword, String criteria, String option) {
-        long now = Long.parseLong(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
-        Query query = new Query(
-                Criteria.where(criteria).regex(keyword).and("date").gte(getPeriod(option)).lte(now))
-                .with(pageable)
-                .skip(pageable.getOffset())
-                .limit(pageable.getPageSize()
-                );
+        Query query = QueryUtil.getQueryWithDate(pageable, option, criteria, keyword);
 
         List<NoticeListResponseDto> list = findNoticeList(query);
 
@@ -190,10 +172,7 @@ public class BoardService {
     }
 
     public Page<QnaListResponseDto> searchQna(Pageable pageable, String keyword, String category) {
-        Query query = new Query(Criteria.where(category).regex(keyword))
-                .with(pageable)
-                .skip(pageable.getOffset())
-                .limit(pageable.getPageSize());
+        Query query = QueryUtil.getQuery(pageable, category, keyword);
 
         List<QnaListResponseDto> list = findQnaList(query);
 

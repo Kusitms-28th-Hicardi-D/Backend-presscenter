@@ -8,10 +8,7 @@ import com.example.hicardipresscenter.domain.news.dto.res.NewsFindAllResponseDto
 import com.example.hicardipresscenter.domain.news.dto.res.NewsFindResponseDto;
 import com.example.hicardipresscenter.domain.news.dto.res.NewsSubscribeResponseDto;
 import com.example.hicardipresscenter.domain.news.repository.NewsRepository;
-import com.example.hicardipresscenter.global.DateUtil;
-import com.example.hicardipresscenter.global.EmailService;
-import com.example.hicardipresscenter.global.MessageType;
-import com.example.hicardipresscenter.global.S3Service;
+import com.example.hicardipresscenter.global.*;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -113,10 +110,7 @@ public class NewsService {
     }
 
     public Page<NewsFindAllResponseDto> searchNews(Pageable pageable, String keyword, String category) {
-        Query query = new Query(Criteria.where(category).regex(keyword))
-                .with(pageable)
-                .skip(pageable.getOffset())
-                .limit(pageable.getPageSize());
+        Query query = QueryUtil.getQuery(pageable, category, keyword);
 
         List<NewsFindAllResponseDto> list = findNewsList(query);
 

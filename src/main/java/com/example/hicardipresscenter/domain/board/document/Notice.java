@@ -26,6 +26,8 @@ public class Notice extends BaseDocument {
     private long date;
     private long viewCount;
 
+
+
     public static Notice createNotice(String title, String content, String writer, long date, long num){
         return Notice.builder()
                 .title(title)

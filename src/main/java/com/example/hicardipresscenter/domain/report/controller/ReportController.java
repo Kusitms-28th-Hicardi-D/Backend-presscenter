@@ -34,7 +34,7 @@ public class ReportController {
         return reportService.findReport(new ObjectId(id));
     }
 
-    @GetMapping("/search")
+    @GetMapping("")
     public BaseResponseDto<?> searchReport(
             @RequestParam(name = "keyword") String keyword,
             @RequestParam(name = "criteria") String criteria,
@@ -43,11 +43,11 @@ public class ReportController {
         return new BaseResponseDto<>(new BasePageDto<>(reportService.searchReport(pageable, keyword, criteria)));
     }
 
-    @GetMapping("")
-    public BaseResponseDto<?> findAllReport(Pageable pageable) {
-        log.info("pageable: {}", pageable);
-        return new BaseResponseDto<>(new BasePageDto<>(reportService.findAllReport(pageable)));
-    }
+//    @GetMapping("")
+//    public BaseResponseDto<?> findAllReport(Pageable pageable) {
+//        log.info("pageable: {}", pageable);
+//        return new BaseResponseDto<>(new BasePageDto<>(reportService.findAllReport(pageable)));
+//    }
 
     @GetMapping("/test")
     public BaseResponseDto<ReportGetResponseDto> test() {

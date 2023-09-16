@@ -25,13 +25,13 @@ public class BoardController {
     }
 
     // 공지 전체 조회
-    @GetMapping("/notice")
-    public BaseResponseDto<?> getNoticeAll(Pageable pageable) {
-        return new BaseResponseDto<>(new BasePageDto<>(boardService.findAllNotice(pageable)));
-    }
+//    @GetMapping("/notice")
+//    public BaseResponseDto<?> getNoticeAll(Pageable pageable) {
+//        return new BaseResponseDto<>(new BasePageDto<>(boardService.findAllNotice(pageable)));
+//    }
 
     // 공지 검색
-    @GetMapping("/notice/search")
+    @GetMapping("/notice")
     public BaseResponseDto<?> searchNotice(
             @RequestParam String keyword,
             @RequestParam String criteria,
@@ -57,13 +57,13 @@ public class BoardController {
     }
 
     // Q&A 전체 조회
-    @GetMapping("/qna")
-    public BaseResponseDto<?> getQnaAll(Pageable pageable) {
-        return new BaseResponseDto<>(new BasePageDto<>(boardService.findAllQna(pageable)));
-    }
+//    @GetMapping("/qna")
+//    public BaseResponseDto<?> getQnaAll(Pageable pageable) {
+//        return new BaseResponseDto<>(new BasePageDto<>(boardService.findAllQna(pageable)));
+//    }
 
     // Q&A 검색
-    @GetMapping("/qna/search")
+    @GetMapping("/qna")
     public BaseResponseDto<?> searchQna(
             @RequestParam String keyword,
             @RequestParam String criteria,

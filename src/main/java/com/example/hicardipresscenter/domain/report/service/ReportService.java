@@ -7,6 +7,7 @@ import com.example.hicardipresscenter.domain.report.dto.res.ReportFindAllRespons
 import com.example.hicardipresscenter.domain.report.dto.res.ReportFindResponseDto;
 import com.example.hicardipresscenter.domain.report.dto.res.ReportGetResponseDto;
 import com.example.hicardipresscenter.global.DateUtil;
+import com.example.hicardipresscenter.global.QueryUtil;
 import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -100,10 +101,7 @@ public class ReportService {
     }
 
     public Page<ReportFindResponseDto> searchReport(Pageable pageable, String keyword, String criteria) {
-        Query query = new Query(Criteria.where(criteria).regex(keyword))
-                .with(pageable)
-                .skip(pageable.getOffset())
-                .limit(pageable.getPageSize());
+        Query query = QueryUtil.getQuery(pageable, criteria, keyword);
 
         List<ReportFindResponseDto> list = findReportList(query);
 
