@@ -22,4 +22,24 @@ public class DateUtil {
 
         return "20" + year + month + day;
     }
+
+    // 9/16/23, 11:49 PM -> 20yy.MM.dd
+    public static String newsDateFormatter(String date) {
+
+        String[] splitDate = date.split("/");
+
+        String month = splitDate[0];
+        String day = splitDate[1];
+        String year = splitDate[2].substring(0, 2);
+
+        if (month.length() == 1) {
+            month = "0" + month;
+        }
+
+        if (day.length() == 1) {
+            day = "0" + day;
+        }
+
+        return "20" + year + "." + month + "." + day;
+    }
 }

@@ -47,13 +47,13 @@ public class NewsService {
                 .files(requestDto.getFiles())
                 .build();
 
-        mongoTemplate.insert(news);
+        News saved = mongoTemplate.insert(news);
 
         List<Subscribe> subscribes = mongoTemplate.findAll(Subscribe.class, "subscribe");
 
         try {
             for (Subscribe subscribe : subscribes) {
-                emailService.sendSimpleMessage(subscribe.getEmail(), MessageType.NEWS);
+                emailService.sendSimpleMessage(subscribe.getEmail(), MessageType.NEWS, saved.getId().toHexString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class NewsService {
                 news.getTitle(),
                 news.getContent(),
                 news.getWriter(),
-                DateUtil.dateFormatter(news.getCreatedDate()),
+                DateUtil.newsDateFormatter(news.getCreatedDate()),
                 news.getFiles()
         ));
     }
@@ -130,7 +130,7 @@ public class NewsService {
                         news.getId().toHexString(),
                         news.getTitle(),
                         news.getWriter(),
-                        DateUtil.dateFormatter(news.getCreatedDate()),
+                        DateUtil.newsDateFormatter(news.getCreatedDate()),
                         news.getImage()
                 ))
                 .collect(Collectors.toList());

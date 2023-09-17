@@ -215,7 +215,7 @@ public class BoardService {
         }
 
         try {
-            emailService.sendSimpleMessage(qna.getEmail(), MessageType.QNA);
+            emailService.sendSimpleMessage(qna.getEmail(), MessageType.QNA, qna.getId().toHexString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -20,7 +20,7 @@ public class EmailService {
     * 하이카디 소식 새 글 알림
     * 링크로 연결
      */
-    private MimeMessage createMessage(String to, MessageType type) throws Exception {
+    private MimeMessage createMessage(String to, MessageType type, String id) throws Exception {
         log.info("보내는 대상 : " + to);
 
         MimeMessage message = emailSender.createMimeMessage();
@@ -34,7 +34,7 @@ public class EmailService {
         msgg += "<p style='text-align: center;'>" + type.getContent() + "</p>";
         msgg += "<p style='text-align: center;'>아래 링크를 클릭해주세요</p>";
         msgg += "<div style='background-color: #f0f0f0; border: 1px solid #ccc; padding: 15px; text-align: center;'>";
-        msgg += "<a href=" + type.getLink() + " style='font-size: 20px; font-weight: bold;'>페이지 바로가기</a>";
+        msgg += "<a href=" + "'" + type.getLink() + id + "'" + " style='font-size: 20px; font-weight: bold;'>페이지 바로가기</a>";
         msgg += "</div>";
         msgg += "<p style='text-align: center; font-size: 16px;'>감사합니다.</p>";
         msgg += "</div>";
@@ -45,9 +45,9 @@ public class EmailService {
         return message;
     }
 
-    public void sendSimpleMessage(String to, MessageType messageType) throws Exception {
+    public void sendSimpleMessage(String to, MessageType messageType, String id) throws Exception {
 
-        MimeMessage message = createMessage(to, messageType);
+        MimeMessage message = createMessage(to, messageType, id);
         try {
             emailSender.send(message);
         } catch (MailException e) {
