@@ -48,7 +48,7 @@ public class QueryUtil {
                     .limit(pageable.getPageSize());
         }
 
-        return query.with(Sort.by(Sort.Direction.DESC, "_id"));
+        return query;
     }
 
     public static Query getTotalQuery(String criteria, String keyword) {

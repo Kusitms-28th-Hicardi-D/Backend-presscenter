@@ -11,6 +11,7 @@ import com.example.hicardipresscenter.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,7 @@ public class NewsController {
     ) {
         Query totalQuery = QueryUtil.getTotalQuery(criteria, keyword);
         long total = newsService.getTotal(totalQuery);
-        Query query = QueryUtil.getQuery(pageable, criteria, keyword);
+        Query query = QueryUtil.getQuery(pageable, criteria, keyword).with(Sort.by(Sort.Direction.DESC, "_id"));
         return new BaseResponseDto<>(new BasePageDto<>(newsService.searchNews(query, pageable), total));
     }
 

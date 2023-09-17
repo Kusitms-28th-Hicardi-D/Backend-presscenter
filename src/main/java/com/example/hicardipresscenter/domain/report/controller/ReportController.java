@@ -48,12 +48,6 @@ public class ReportController {
         return new BaseResponseDto<>(new BasePageDto<>(reportService.searchReport(pageable, query), total));
     }
 
-//    @GetMapping("")
-//    public BaseResponseDto<?> findAllReport(Pageable pageable) {
-//        log.info("pageable: {}", pageable);
-//        return new BaseResponseDto<>(new BasePageDto<>(reportService.findAllReport(pageable)));
-//    }
-
     @GetMapping("/test")
     public BaseResponseDto<ReportGetResponseDto> test() {
         return reportService.getReport();
