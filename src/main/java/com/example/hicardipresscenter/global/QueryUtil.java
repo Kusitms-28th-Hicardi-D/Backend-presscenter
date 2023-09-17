@@ -1,6 +1,7 @@
 package com.example.hicardipresscenter.global;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -26,7 +27,8 @@ public class QueryUtil {
                     .limit(pageable.getPageSize());
         }
 
-        return query;
+        // desc by id
+        return query.with(Sort.by(Sort.Direction.DESC, "_id"));
     }
 
     public static Query getQuery(Pageable pageable, String criteria, String keyword) {
@@ -46,7 +48,7 @@ public class QueryUtil {
                     .limit(pageable.getPageSize());
         }
 
-        return query;
+        return query.with(Sort.by(Sort.Direction.DESC, "_id"));
     }
 
     public static Query getTotalQuery(String criteria, String keyword) {
